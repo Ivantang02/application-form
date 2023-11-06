@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Update Form Example</title>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+        <style>
+            body {
+                font-family: 'Roboto', sans-serif;
+                background-image: url('../asset/derek-thomson-NqJYQ3m_rVA-unsplash.jpg');
+                background-size: cover;
+                background-position: center;
+            }
+            h1 {
+                text-align: center;
+                margin-top: 50px;
+                margin-bottom: 50px;
+            }
+            form {
+                max-width: 600px;
+                margin: 0 auto;
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            label {
+                display: block;
+                margin-bottom: 10px;
+                font-weight: 700;
+                color: #333;
+            }
+            input[type="text"],
+            input[type="email"],
+            input[type="tel"],
+            input[type="date"] {
+                display: block;
+                width: 100%;
+                padding: 10px;
+                border-radius: 5px;
+                border: none;
+                margin-bottom: 20px;
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            }
+            input[type="submit"], /* Add a new style for the cancel button */
+            input[type="button"] {
+                display: block;
+                width: 100%;
+                padding: 10px;
+                background-color: #333;
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                margin: 10px 0;
+                cursor: pointer;
+            }
+            input[type="submit"]:hover,
+            input[type="button"]:hover {
+                background-color: #555;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Update Form</h1>
+        <form onsubmit="updateData(); return false;">
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="nric">NRIC:</label>
+            <input type="text" id="nric" name="nric" required>
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="mobile">Mobile:</label>
+            <input type="tel" id="mobile" name="mobile" required>
+            <input type="submit" value="Update">
+            <input type="button" value="Cancel" onclick="window.location.href='../index.html'"> <!-- Add a new button element for the cancel button -->
+        </form>
+        <script>
+            function loadFormData() {
+                var formName = decodeURIComponent(window.location.search.substring(1)).split("=")[1]; // Get the form name from the query parameter
+                var data = JSON.parse(localStorage.getItem("formData"));
+                if (data && data[formName]) {
+                    var formData = JSON.parse(data[formName]);
+                    document.getElementById("date").value = formData.date;
+                    document.getElementById("name").value = formData.name;
+                    document.getElementById("nric").value = formData.nric;
+                    document.getElementById("address").value = formData.address;
+                    document.getElementById("email").value = formData.email;
+                    document.getElementById("mobile").value = formData.mobile;
+                } else {
+                    alert("Form data not found.");
+                    window.location.href = "../index.html";
+                }
+            }
+            function updateData() {
+                var formName = decodeURIComponent(window.location.search.substring(1)).split("=")[1]; // Get the form name from the query parameter
+                var date = document.getElementById("date").value;
+                var name = document.getElementById("name").value;
+                var nric = document.getElementById("nric").value;
+                var address = document.getElementById("address").value;
+                var email = document.getElementById("email").value;
+                var mobile = document.getElementById("mobile").value;
+                if (!date || !name || !nric || !address || !email || !mobile) {
+                    alert("Please fill in all the fields.");
+                    return;
+                }
+                var data = JSON.parse(localStorage.getItem("formData")) || {};
+                data[formName] = JSON.stringify({
+                    "date": date,
+                    "name": name,
+                    "nric": nric,
+                    "address": address,
+                    "email": email,
+                    "mobile": mobile
+                });
+                localStorage.setItem("formData", JSON.stringify(data));
+                alert("Data updated successfully!");
+                window.location.href = "../index.html";
+            }
+            loadFormData();
+        </script>
+    </body>
+</html>

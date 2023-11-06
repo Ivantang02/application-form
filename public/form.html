@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Form</title>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+        <style>
+            body {
+                font-family: 'Roboto', sans-serif;
+                background-image: url('../asset/derek-thomson-NqJYQ3m_rVA-unsplash.jpg');
+                background-size: cover;
+                background-position: center;
+            }
+            h1 {
+                text-align: center;
+                margin-top: 50px;
+                margin-bottom: 50px;
+            }
+            form {
+                max-width: 600px;
+                margin: 0 auto;
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            label {
+                display: block;
+                margin-bottom: 10px;
+                font-weight: 700;
+                color: #333;
+            }
+            input[type="text"],
+            input[type="email"],
+            input[type="tel"],
+            input[type="date"] {
+                display: block;
+                width: 100%;
+                padding: 10px;
+                border-radius: 5px;
+                border: none;
+                margin-bottom: 20px;
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            }
+            input[type="submit"],
+            input[type="button"] {
+                display: block;
+                width: 100%;
+                padding: 10px;
+                background-color: #333;
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                margin: 10px 0;
+                cursor: pointer;
+            }
+            input[type="submit"]:hover,
+            input[type="button"]:hover {
+                background-color: #555;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>New Application Form</h1>
+        <form onsubmit="storeData(); return false;">
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name">
+            <label for="nric">NRIC:</label>
+            <input type="text" id="nric" name="nric">
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address">
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email">
+            <label for="mobile">Mobile Number:</label>
+            <input type="tel" id="mobile" name="mobile">
+            <input type="submit" value="Submit">
+            <input type="button" value="Cancel" onclick="window.location.href='../index.html'"> <!-- Add a new button element for the cancel button -->
+        </form>
+        <script>
+            function storeData() {
+                var date = document.getElementById("date").value;
+                var name = document.getElementById("name").value;
+                var nric = document.getElementById("nric").value;
+                var address = document.getElementById("address").value;
+                var email = document.getElementById("email").value;
+                var mobile = document.getElementById("mobile").value;
+                if (!date || !name || !nric || !address || !email || !mobile) {
+                    alert("Please fill in all the fields.");
+                    return;
+                }
+                var data = {
+                    "date": date,
+                    "name": name,
+                    "nric": nric,
+                    "address": address,
+                    "email": email,
+                    "mobile": mobile
+                };
+                try {
+                    var formData = JSON.parse(localStorage.getItem("formData")) || [];
+                    formData.push(JSON.stringify(data)); // Convert data object to string before pushing to formData array
+                    localStorage.setItem("formData", JSON.stringify(formData));
+                    alert("Data stored successfully!");
+                    window.location.href = "../index.html";
+                } catch (error) {
+                    console.log(error);
+                    alert("An error occurred while storing the data.");
+                }
+            }
+        </script>
+    </body>
+</html>
